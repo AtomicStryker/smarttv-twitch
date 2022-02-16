@@ -7,29 +7,30 @@
 - [Project Web Dependencies](#project-web-dependencies)
 - [How the application looks](#how-the-application-looks)
 - [Twitch.TV authentication key](#twitchtv-authentication-key)
-	- [Twitch.TV app for Samsung TV authorization request page](#twitchtv-app-for-samsung-tv-authorization-request-page)
-	- [when accessing Twitch authorization site after adding yours credential (User and password) you will see the bellow information](#when-accessing-twitch-authorization-site-after-adding-yours-credential-user-and-password-you-will-see-the-bellow-information)
+    - [Twitch.TV app for Samsung TV authorization request page](#twitchtv-app-for-samsung-tv-authorization-request-page)
+    - [when accessing Twitch authorization site after adding yours credential (User and password) you will see the bellow information](#when-accessing-twitch-authorization-site-after-adding-yours-credential-user-and-password-you-will-see-the-bellow-information)
 - [Controls](#controls)
-	- [Below are the on-screen controls](#below-are-the-on-screen-controls)
-	- [To access the controls from any screen press key A or on smart remote press the 4 color buttons (color) after Directional pad up for red A key and chose controls. If you are playing a stream, use the C yellow key to directly open the controls](#to-access-the-controls-from-any-screen-press-key-a-or-on-smart-remote-press-the-4-color-buttons-color-after-directional-pad-up-for-red-a-key-and-chose-controls-if-you-are-playing-a-stream-use-the-c-yellow-key-to-directly-open-the-controls)
-	- [In app controls](#in-app-controls)
+    - [Below are the on-screen controls](#below-are-the-on-screen-controls)
+    - [To access the controls from any screen press key A or on smart remote press the 4 color buttons (color) after Directional pad up for red A key and chose controls. If you are playing a stream, use the C yellow key to directly open the controls](#to-access-the-controls-from-any-screen-press-key-a-or-on-smart-remote-press-the-4-color-buttons-color-after-directional-pad-up-for-red-a-key-and-chose-controls-if-you-are-playing-a-stream-use-the-c-yellow-key-to-directly-open-the-controls)
+    - [In app controls](#in-app-controls)
 - [Installation instructions:](#installation-instructions)
-	- [Installation guide **Tizen Studio for TVs with Tizen 2.3 or newer** (tested on Linux Ubuntu 16 and up, windows 10 64 bits and macOS Mojave 10.14.4)](#installation-guide-tizen-studio-for-tvs-with-tizen-23-or-newer-tested-on-linux-ubuntu-16-and-up-windows-10-64-bits-and-macos-mojave-10144)
-	- [Help and workarounds](#help-and-workarounds)
-	- [Account and Downloads](#account-and-downloads)
-	- [Set your TV to developer mode](#set-your-tv-to-developer-mode)
-	- [Installing Tizen Studio and Java SDK on Windows 10](#installing-tizen-studio-and-java-sdk-on-windows-10)
-		- [Via chocolately](#via-chocolately)
-	- [Installing Tizen Studio and Java SDK on Ubunutu](#installing-tizen-studio-and-java-sdk-on-ubunutu)
-	- [Tizen Package Manager(Installing the tools)](#tizen-package-managerinstalling-the-tools)
-	- [Setting up the build environment:](#setting-up-the-build-environment)
-	- [Generate a certificate:](#generate-a-certificate)
-	- [Setup the application:](#setup-the-application)
-	- [Install the application:](#install-the-application)
+    - [Installation guide **Tizen Studio for TVs with Tizen 2.3 or newer** (tested on Linux Ubuntu 16 and up, windows 10 64 bits and macOS Mojave 10.14.4)](#installation-guide-tizen-studio-for-tvs-with-tizen-23-or-newer-tested-on-linux-ubuntu-16-and-up-windows-10-64-bits-and-macos-mojave-10144)
+    - [Help and workarounds](#help-and-workarounds)
+    - [Account and Downloads](#account-and-downloads)
+    - [Set your TV to developer mode](#set-your-tv-to-developer-mode)
+    - [Installing Tizen Studio and Java SDK on Windows 10](#installing-tizen-studio-and-java-sdk-on-windows-10)
+        - [Via chocolately](#via-chocolately)
+    - [Installing Tizen Studio and Java SDK on Ubunutu](#installing-tizen-studio-and-java-sdk-on-ubunutu)
+    - [Tizen Package Manager(Installing the tools)](#tizen-package-managerinstalling-the-tools)
+    - [Setting up the build environment:](#setting-up-the-build-environment)
+    - [Generate a certificate:](#generate-a-certificate)
+    - [Setup the application:](#setup-the-application)
+    - [Install the application:](#install-the-application)
 - [Updates](#updates)
 - [In doubt open a issue](#in-doubt-open-a-issue)
 - [Donations](#donations)
 - [How to get the IP](#how-to-get-the-ip)
+- [Development](#development-guide)
 
 
 ## About the project
@@ -352,3 +353,43 @@ Mac System Preferences > Network.<br>
 
 Result<br>
 ![ip_3](https://fgl27.github.io/smarttv-twitch/screenshot/etc/mac_ip.jpg)
+
+
+## Development guide:
+
+This is primarily written in Javascript, a single-page-application dynamically hiding and showing parts of the DOM and populating content by "translating" json Twitch API responses into HTML and CSS.
+
+Checkout the project using Git and use your favourite IDE (VS Code or Intellij IDEA work) to import the base folder.
+
+Typically, you will only make changes to the javascript files in 
+
+	/app/specific/
+    
+which generate and control the user interface.
+
+
+
+For testing the interface locally, you can open 
+
+	/app/index.html
+
+in a web browser. You will need a twitch API token,
+for example im a new file /app/testing.js which just contains a setter with your OWN twitch API token, like this:
+
+	AddCode_main_token = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx';
+
+For obvious reasons, make sure not to commit and push your private twitch API token.
+
+Controls on PC browser are **arrow keys** for navigation, **enter**, and **"1"** or **"q"** to backtrack/return.
+
+Please note the actual video playing capabilities rely on the video player found on Samsung TVs and there is no way to test these locally,
+other than setting up an emulated Samsung TV and deploying the compiled app to it.
+
+
+To compile the application into a deployment, you need a OS supporting bash and node, and install some node plugins, see
+
+	/release/release_maker.sh
+    
+contents for details. Finally, execute **/release/release_maker.sh** to build the Tizen application.
+
+For testing, you must deploy it onto an actual Samsung TV or an emulator.
